@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'POS Pay4All Payment Gateway',
-    'version': '16.0.1.0.0',
+    'version': '16.0.2.0.0',
     'category': 'Point of Sale',
-    'summary': 'Integração Pay4All (e-Kwanza, Multicaixa Express) para POS',
+    'summary': 'Integração completa Pay4All (e-Kwanza, Multicaixa Express) para POS',
     'description': '''
-        Módulo de pagamento Pay4All para Point of Sale do Odoo
+        Módulo completo de pagamento Pay4All para Point of Sale do Odoo
         
-        Funcionalidades:
-        - e-Kwanza (pagamento via carteira móvel)
-        - Multicaixa Express 
-        - Pagamento por Referência
-        - Interface moderna seguindo design específico
+        🎯 Funcionalidades:
+        ✅ e-Kwanza (pagamento via carteira móvel)
+        ✅ Multicaixa Express (pagamento via terminal)
+        ✅ 3 telas especializadas com design pixel-perfect
+        ✅ Validação robusta de números angolanos  
+        ✅ Integração API real com endpoints oficiais
+        ✅ Timeouts inteligentes por método
+        ✅ Interface moderna seguindo mockups profissionais
+        ✅ Suporte completo a AOA (Kwanza angolano)
+        
+        🚀 Pronto para produção!
     ''',
     'author': 'Pay4All Development Team',
     'website': 'https://pay4all.ao',
