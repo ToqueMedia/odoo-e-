@@ -40,7 +40,7 @@ cp -r "$SCRIPT_DIR/views" "$TEMP_DIR/$MODULE_NAME/"
 echo "📁 Copiando dados iniciais..."
 cp -r "$SCRIPT_DIR/data" "$TEMP_DIR/$MODULE_NAME/"
 
-# Arquivos estáticos (JS, CSS, XML templates)
+# Arquivos estáticos (JS, CSS, XML templates, description)
 echo "📁 Copiando arquivos estáticos..."
 cp -r "$SCRIPT_DIR/static" "$TEMP_DIR/$MODULE_NAME/"
 
@@ -48,6 +48,7 @@ cp -r "$SCRIPT_DIR/static" "$TEMP_DIR/$MODULE_NAME/"
 echo "📄 Copiando documentação..."
 cp "$SCRIPT_DIR/README.md" "$TEMP_DIR/$MODULE_NAME/"
 cp "$SCRIPT_DIR/ODOO_ONLINE_INSTALL.md" "$TEMP_DIR/$MODULE_NAME/"
+cp "$SCRIPT_DIR/LICENSE" "$TEMP_DIR/$MODULE_NAME/"
 
 # Criar arquivo de informações do pacote
 echo "📝 Criando informações do pacote..."
@@ -96,6 +97,10 @@ REQUIRED_FILES=(
     "data/payment_provider_data.xml"
     "static/src/css/pay4all_payment.css"
     "static/src/js/main.js"
+    "static/description/index.html"
+    "static/description/icon.png"
+    "static/description/main_screenshot.png"
+    "LICENSE"
 )
 
 for file in "${REQUIRED_FILES[@]}"; do
