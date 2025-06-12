@@ -31,6 +31,8 @@
     'assets': {
         'point_of_sale.assets': [
             'pos_pay4all/static/src/js/main.js',
+            'pos_pay4all/static/src/js/pay4all_terminal.js',
+            'pos_pay4all/static/src/js/pay4all_compat_simple.js',
             'pos_pay4all/static/src/js/pay4all_payment_screen.js',
             'pos_pay4all/static/src/js/pay4all_processing_screen.js',
             'pos_pay4all/static/src/js/pay4all_multicaixa_wait_screen.js',
