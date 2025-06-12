@@ -1,54 +1,73 @@
 /** @odoo-module **/
 
-// Importações usando CommonJS para compatibilidade com Odoo 16
-const AbstractAwaitablePopup = require('point_of_sale.popups');
-const PaymentInterface = require('point_of_sale.PaymentInterface');
-const Gui = require('point_of_sale.Gui');
-const { useState } = owl.hooks;
+import { PaymentInterface } from "@point_of_sale/app/payment/payment_interface";
+import { _t } from "@web/core/l10n/translation";
 
 /**
- * Pay4All Payment Screen - Tela 1: Seleção de Método
- * Replica exatamente o design dos mockups fornecidos
+ * Pay4All Payment Interface for Odoo 16
  */
-class Pay4AllPaymentScreen extends AbstractAwaitablePopup {
-    constructor() {
-        super(...arguments);
-        this.state = useState({
-            selectedMethod: null,
-            phoneNumber: '',
-            phoneError: null,
-            isProcessing: false
+export class Pay4AllPaymentInterface extends PaymentInterface {
+    setup() {
+        super.setup();
+        this.supports_reversals = false;
+    }
+
+    /**
+     * Handle payment processing
+     */
+    send_payment_request(cid) {
+        return this._pay4all_pay(cid);
+    }
+
+    /**
+     * Main payment flow
+     */
+    async _pay4all_pay(cid) {
+        const line = this.pos.get_order().get_paymentline(cid);
+        const amount = line.get_amount();
+        
+        try {
+            // Show Pay4All payment screens
+            await this._showPay4AllScreens(amount, line);
+            return true;
+        } catch (error) {
+            this._show_error(_t('Payment failed: ') + error.message);
+            return false;
+        }
+    }
+
+    /**
+     * Show Pay4All payment screens sequence
+     */
+    async _showPay4AllScreens(amount, line) {
+        // This will be implemented with the actual screen components
+        console.log('Pay4All payment initiated for amount:', amount);
+        
+        // For now, simulate successful payment
+        line.set_payment_status('done');
+        return true;
+    }
+
+    /**
+     * Show error message
+     */
+    _show_error(msg) {
+        this.pos.env.services.notification.add(msg, {
+            type: 'danger',
+            sticky: false,
         });
     }
+}
 
-    selectMethod(method) {
-        this.state.selectedMethod = method;
-        this.state.phoneError = null;
-        
-        setTimeout(() => {
-            const phoneInput = document.getElementById('pay4all-phone');
-            if (phoneInput) {
-                phoneInput.focus();
-            }
-        }, 100);
+// Register the payment interface
+const { PaymentTerminal } = require('point_of_sale.models');
+
+PaymentTerminal.prototype.payment_interface_factory = function() {
+    if (this.use_payment_terminal === 'pay4all') {
+        return new Pay4AllPaymentInterface(this);
     }
-
-    onPhoneInput(event) {
-        const value = event.target.value;
-        this.state.phoneNumber = this.formatPhoneNumber(value);
-        this.validatePhone();
-    }
-
-    formatPhoneNumber(value) {
-        let digits = value.replace(/\D/g, '');
-        
-        if (digits.startsWith('244')) {
-            digits = '+244' + digits.substring(3);
-        } else if (digits.startsWith('9') && digits.length >= 9) {
-            digits = '+244' + digits;
-        } else if (!digits.startsWith('+') && digits.length > 9) {
-            digits = '+244' + digits.substring(digits.length - 9);
-        }
+    return this._super(...arguments);
+};
         
         if (digits.startsWith('+244')) {
             const phoneDigits = digits.substring(4);
